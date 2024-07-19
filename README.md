@@ -1,4 +1,4 @@
-# TradeSystem-Risk-Calculator
+# TradeSystem Risk Calculator
 
 Este projeto é um simulador de trades que permite calcular o capital final após uma série de operações, considerando probabilidades de ganho e perda. O simulador é útil para observar se o gerenciamento de risco é eficiente.
 
