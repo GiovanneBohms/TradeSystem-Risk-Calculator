@@ -13,3 +13,4 @@ O simulador:
 - Realiza uma série de trades (definido pelo parâmetro `trades`), onde cada trade pode resultar em ganho ou perda, baseado em uma probabilidade (`indiceDeGain`).
 - Ajusta o capital após cada trade.
 - Exibe o número total de ganhos e perdas, bem como o capital inicial e final após todas as operações.
+- Exibe o último trade caso ocorra `Ruína/Crash`
