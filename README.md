@@ -6,9 +6,7 @@ Este projeto é um simulador de trades que permite calcular o capital final apó
 
 ## Descrição
 
-O script principal (`index.js`) define a função `main`, que executa uma série de trades, e a função `simulacoes`, que realiza múltiplas simulações de trades.
-
-A função `main` realiza o seguinte:
+O simulador:
 
 - Define o capital inicial.
 - Calcula a fração do capital a ser utilizada em cada trade.
