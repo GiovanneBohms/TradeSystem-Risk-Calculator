@@ -2,6 +2,8 @@
 
 Este projeto é um simulador de trades que permite calcular o capital final após uma série de operações, considerando probabilidades de ganho e perda. O simulador é útil para observar se o gerenciamento de risco é eficiente.
 
+**Nota:** Este projeto ainda está em desenvolvimento. Funções e funcionalidades podem mudar à medida que o desenvolvimento avança.
+
 ## Descrição
 
 O script principal (`index.js`) define a função `main`, que executa uma série de trades, e a função `simulacoes`, que realiza múltiplas simulações de trades.
