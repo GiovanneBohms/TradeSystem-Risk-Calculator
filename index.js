@@ -1,7 +1,14 @@
 
-//definir quando a banca quebrar após uma sequência de loss que consuma todo o capital
+class Operacao {
+    gain = this.gain;
+    loss = this.loss;
 
-function main(risco, retorno, trades, indiceDeGain,porcentagemDoCapital) {
+   
+    
+}
+
+// criar objetos para organizar o código
+function main(risco, retorno, trades, indiceDeGain, porcentagemDoCapital) {
 
     // const porcentagemDoCapital = 0.01
     let capital = 100
@@ -9,10 +16,11 @@ function main(risco, retorno, trades, indiceDeGain,porcentagemDoCapital) {
     const capitalInicial = capital
     let gain = 0
     let loss = 0
+    
     let totalDeTrades = 0;
 
     //Gain ou Loss por Trade
-    for (let i = 0; i < trades; i++) {
+    for (let i = 1; i < trades + 1; i++) {
         let probabilidade = Math.random();
 
         //soma gain ou loss ao capital
@@ -23,19 +31,21 @@ function main(risco, retorno, trades, indiceDeGain,porcentagemDoCapital) {
             capital = parseFloat((capital - (risco * fracaoDoCapital)).toFixed(2));
             loss++;
         }
-        
+
         //coleta sequência de trades se a banca quebrar
-        if(capital<=0){
+        if (capital <= 0) {
             totalDeTrades = i
             break;
         }
     }
+    let taxaDeGain = parseFloat(((gain/(gain+loss))*100).toFixed(2));
 
-    
-
-    console.log(`\ngains ${gain} losss ${loss} indice de gain final ${gain / (gain + loss)}`)
+    console.log(`\nCapital por trade: ${fracaoDoCapital}`);
+    console.log(`gains ${gain} losss ${loss} indice de gain final ${taxaDeGain} %`)
     console.log(`capital inicial ${capitalInicial} capital final ${capital}`)
-    if(totalDeTrades !== 0){
+
+    // 
+    if (totalDeTrades !== 0) {
         console.log(`A banca quebrou no trade de número ${totalDeTrades}`)
     }
 }
@@ -46,7 +56,7 @@ function main(risco, retorno, trades, indiceDeGain,porcentagemDoCapital) {
 function simulacoes(simulacro) {
 
     for (let i = 0; i < simulacro; i++) {
-        main(1, 1, 10000, 0.5, 0.01)
+        main(1, 1, 10000, 0.5, 1)
     }
 }
 
