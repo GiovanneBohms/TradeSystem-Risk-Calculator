@@ -12,6 +12,7 @@ export class TradeMetrics {
 
     static #crashes = 0;
     static #simulations = 0;
+    static #percentCrashes =0;
 
     constructor(risk, reward, winRate, totalTrades, totalCapital, positionSize) {
         this.#risk = risk;
@@ -70,18 +71,8 @@ export class TradeMetrics {
     static getSimulationsCount(){
         return TradeMetrics.#simulations
     }
+
+    static getPercentCrashes(){
+        return `${100*(parseFloat((this.#crashes/(this.#crashes+this.#simulations)).toFixed(4)))}%`
+    };
 }
-
-
-
-function simula() {
-
-    for (let i = 0; i < 1000; i++) {
-        //(risk,reward,winRate,totalTrades,totalCapital,positionSize)
-        const trades = new TradeMetrics(1, 1, 0.55, 90, 100, 0.1);
-        trades.tradeSimulator()
-    }
-    console.log(TradeMetrics.getCrashCount(), TradeMetrics.getSimulationsCount());
-}
-
-simula()
