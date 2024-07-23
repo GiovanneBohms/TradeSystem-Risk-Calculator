@@ -2,30 +2,29 @@ export class TradeMetrics {
     #risk;
     #reward;
     #winRate;
-    #totalTrades; 
+    #totalTrades;
     #totalCapital;
     #positionSize;
-    #realSuccessRate=0
+    #realSuccessRate = 0
     #gain = 0;
     #loss = 0;
     #crash = false;
 
-    static #simulations=0;
-    static #crashs=0;
+    static #crashes = 0;
+    static #simulations = 0;
 
-    constructor (risk,reward,winRate,totalTrades,totalCapital,positionSize){
+    constructor(risk, reward, winRate, totalTrades, totalCapital, positionSize) {
         this.#risk = risk;
         this.#reward = reward;
         this.#winRate = winRate;
         this.#totalTrades = totalTrades;
         this.#totalCapital = totalCapital;
         this.#positionSize = positionSize;
+        TradeMetrics.#simulations ++;
     }
-    
 
-
-    tradeSimulator(){
-        const positionSize = parseFloat((this.#positionSize*this.#totalCapital).toFixed(2))
+    tradeSimulator() {
+        const positionSize = parseFloat((this.#positionSize * this.#totalCapital).toFixed(2))
 
         for (let i = 1; i < this.#totalTrades + 1; i++) {
 
@@ -45,34 +44,44 @@ export class TradeMetrics {
                 this.#totalTrades = i
 
                 this.#crash = true
+                TradeMetrics.#crashes++;
                 break;
             }
         }
 
-        this.#realSuccessRate = parseFloat((this.#gain/(this.#gain+this.#loss)).toFixed(2));
+        this.#realSuccessRate = parseFloat((this.#gain / (this.#gain + this.#loss)).toFixed(2));
 
         const dados = [{
-            gains : this.#gain,
+            gains: this.#gain,
             loss: this.#loss,
             realSuccesRate: this.#realSuccessRate,
             totalCapital: this.#totalCapital,
             totalTrades: this.#totalTrades,
-            crash :this.#crash,
+            crash: this.#crash,
         }]
 
         console.table(dados)
+    }
+
+    static getCrashCount(){
+        return TradeMetrics.#crashes
+    }
+
+    static getSimulationsCount(){
+        return TradeMetrics.#simulations
     }
 }
 
 
 
-function simula (){
+function simula() {
 
-    for (let i =0; i<10;i++ ){
+    for (let i = 0; i < 1000; i++) {
         //(risk,reward,winRate,totalTrades,totalCapital,positionSize)
-        const trades = new TradeMetrics(1,1,0.55,90,100,0.1);
+        const trades = new TradeMetrics(1, 1, 0.55, 90, 100, 0.1);
         trades.tradeSimulator()
     }
+    console.log(TradeMetrics.getCrashCount(), TradeMetrics.getSimulationsCount());
 }
 
 simula()
