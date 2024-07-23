@@ -1,3 +1,10 @@
+import { Operacao } from "./TradeMetrics.js";
+
+
+
+console.log(testeOperacao)
+
+
 const reset = '\x1b[0m';
 const red = '\x1b[91m';
 const green = '\x1b[32m';
@@ -49,17 +56,3 @@ function main(risco, retorno, trades, indiceDeGain, porcentagemDoCapital) {
         console.log(colorText(green, `A banca não quebrou ♥`));
     }
 }
-
-
-
-
-function simulacoes(simulacro) {
-
-    for (let i = 0; i < simulacro; i++) {
-        main(2, 1, 30, 0.65, 0.1)
-    }
-}
-
-//  main(risco, retorno, trades, capital, indiceDeGain,porcentagemDoCapital) 
-
-simulacoes(1000)
