@@ -1,16 +1,30 @@
 # TradeSystem Risk Calculator
 
-Este projeto é um simulador de trades que permite calcular o capital final após uma série de operações, considerando probabilidades de ganho e perda. O simulador é útil para observar se o gerenciamento de risco é eficiente, pois ele leva em consideração perdas consecultivas que podem levar o capital a ruína e é capaz de separar os eventos em universos distintos.
+Este projeto é um simulador Monte Carlo projetado para testar gerenciadores de risco de traders. A classe `TradeMetrics` permite simular diversas negociações financeiras com parâmetros específicos de `risco/retorno`, `taxa de sucesso`, `fração de capital de trade`, `capital total de trade`, `quantidade total de trades`, fornecendo uma visão sobre o desempenho potencial e a `probabilidade de ruína (crash)`.
 
-**Nota:** Este projeto ainda está em desenvolvimento. Funções e funcionalidades podem mudar à medida que o desenvolvimento avança.
+## Funcionalidades
 
-## Descrição
+- **Simulação de Negociações:** Simula uma série de negociações com base em parâmetros fornecidos.
+- **Cálculo de Taxa de Sucesso Real:** Calcula a taxa de sucesso real após a simulação.
+- **Histórico de Negociações em caso de Crash:** Armazena o histórico de ganhos e perdas.
+- **Detecção de Ruína:** Verifica se o capital total cai abaixo de um limite crítico.
+- **Estatísticas de Simulações resultadas em Crash:** relação de total de ocorrências e de ocorrências com crash.
 
-O simulador:
+## Classe TradeMetrics
 
-- Define o capital inicial.
-- Calcula a fração do capital a ser utilizada em cada trade.
-- Realiza uma série de trades (definido pelo parâmetro `trades`), onde cada trade pode resultar em ganho ou perda, baseado em uma probabilidade (`indiceDeGain`).
-- Ajusta o capital após cada trade.
-- Exibe o número total de ganhos e perdas, bem como o capital inicial e final após todas as operações.
-- Exibe o último trade caso ocorra `Ruína/Crash`
+### Propriedades Privadas
+
+- `#risk`: Risco por negociação.
+- `#reward`: Recompensa por negociação.
+- `#winRate`: Taxa de sucesso das negociações.
+- `#totalTrades`: Número total de negociações a serem simuladas.
+- `#totalCapital`: Capital total inicial.
+- `#positionSize`: Tamanho da posição como fração do capital total.
+- `#realSuccessRate`: Taxa de sucesso real após a simulação.
+- `#gain`: Contador de ganhos.
+- `#loss`: Contador de perdas.
+- `#crash`: Indicador de ruína.
+- `#tradeHistory`: Histórico de negociações.
+- `#crashes`: Contador estático de ruínas.
+- `#simulations`: Contador estático de simulações.
+- `#percentCrashes`: Percentual estático de ruínas.
