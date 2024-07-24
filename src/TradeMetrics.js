@@ -9,6 +9,7 @@ export class TradeMetrics {
     #gain = 0;
     #loss = 0;
     #crash = false;
+    #tradeHistory;
 
     static #crashes = 0;
     static #simulations = 0;
@@ -22,30 +23,30 @@ export class TradeMetrics {
         this.#totalCapital = totalCapital;
         this.#positionSize = positionSize;
         TradeMetrics.#simulations ++;
+        this.#tradeHistory = []
     }
 
     tradeSimulator() {
-        const positionSize = parseFloat((this.#positionSize * this.#totalCapital).toFixed(2))
+        let positionSize = parseFloat((this.#positionSize * this.#totalCapital).toFixed(2))
 
         for (let i = 1; i < this.#totalTrades + 1; i++) {
-
             let probability = Math.random();
             //soma gain ou loss ao capital total
-
-
             if (this.#winRate >= probability) {
                 this.#totalCapital = parseFloat((this.#totalCapital + (this.#reward * positionSize)).toFixed(2));
                 this.#gain++;
+                this.#tradeHistory.push(`gainX${this.#reward}`)
             } else {
                 this.#totalCapital = parseFloat((this.#totalCapital - (this.#risk * positionSize)).toFixed(2));
                 this.#loss++;
+                this.#tradeHistory.push(`lossX${this.#risk}`)
             }
-            //coleta sequência de trades se a banca quebrar
-            if (this.#totalCapital <= 0) {
+            //coleta sequência de trades em ruína
+            if (this.#totalCapital <= 9) {
                 this.#totalTrades = i
-
                 this.#crash = true
                 TradeMetrics.#crashes++;
+                console.log(this.#tradeHistory)
                 break;
             }
         }
