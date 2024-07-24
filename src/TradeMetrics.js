@@ -13,10 +13,9 @@ export class TradeMetrics {
 
     static #crashes = 0;
     static #simulations = 0;
-
-    static #capitalStart
-    static #positiveEvents=0
-    static #negativeEvents=0
+    static #capitalStart;
+    static #positiveEvents = 0;
+    static #negativeEvents = 0;
 
     constructor(risk, reward, winRate, totalTrades, totalCapital, positionSize) {
         this.#risk = risk;
@@ -26,74 +25,72 @@ export class TradeMetrics {
         this.#totalCapital = totalCapital;
         TradeMetrics.#capitalStart = this.#totalCapital;
         this.#positionSize = positionSize;
-        TradeMetrics.#simulations ++;
-        this.#tradeHistory = []
+        TradeMetrics.#simulations++;
+        this.#tradeHistory = [];
     }
 
-
-
     tradeSimulator() {
-        let positionSize = parseFloat((this.#positionSize * this.#totalCapital).toFixed(2))
+        let positionSize = parseFloat((this.#positionSize * this.#totalCapital).toFixed(2));
 
-        for (let i = 1; i < this.#totalTrades + 1; i++) {
+        for (let i = 1; i <= this.#totalTrades; i++) {
             let probability = Math.random();
-            //soma gain ou loss ao capital total
+            // Soma gain ou loss ao capital total
             if (this.#winRate >= probability) {
                 this.#totalCapital = parseFloat((this.#totalCapital + (this.#reward * positionSize)).toFixed(2));
                 this.#gain++;
-                this.#tradeHistory.push(`gainX${this.#reward}`)
+                this.#tradeHistory.push(`gainX${this.#reward}`);
             } else {
                 this.#totalCapital = parseFloat((this.#totalCapital - (this.#risk * positionSize)).toFixed(2));
                 this.#loss++;
-                this.#tradeHistory.push(`lossX${this.#risk}`)
+                this.#tradeHistory.push(`lossX${this.#risk}`);
             }
-            //coleta sequência de trades em ruína
+            // Coleta sequência de trades em ruína
             if (this.#totalCapital <= 9) {
-                this.#totalTrades = i
-                this.#crash = true
+                this.#totalTrades = i;
+                this.#crash = true;
                 TradeMetrics.#crashes++;
-                console.log(this.#tradeHistory)
+                console.log(this.#tradeHistory);
                 break;
             }
         }
 
         this.#realSuccessRate = parseFloat((this.#gain / (this.#gain + this.#loss)).toFixed(2));
 
-        if(TradeMetrics.#capitalStart< this.#totalCapital){
-            TradeMetrics.#positiveEvents ++;
-        }else{
-            TradeMetrics.#negativeEvents ++;
-        };
+        if (TradeMetrics.#capitalStart < this.#totalCapital) {
+            TradeMetrics.#positiveEvents++;
+        } else {
+            TradeMetrics.#negativeEvents++;
+        }
 
         const dados = [{
             gains: this.#gain,
             loss: this.#loss,
-            realSuccesRate: this.#realSuccessRate,
+            realSuccessRate: this.#realSuccessRate,
             totalCapital: this.#totalCapital,
             totalTrades: this.#totalTrades,
             crash: this.#crash,
-        }]
+        }];
 
-        console.table(dados)
+        console.table(dados);
     }
 
-    static getStartCapital(){
+    static getStartCapital() {
         return TradeMetrics.#capitalStart;
     }
 
-    static getCrashCount(){
-        return TradeMetrics.#crashes
+    static getCrashCount() {
+        return TradeMetrics.#crashes;
     }
 
-    static getSimulationsCount(){
-        return TradeMetrics.#simulations
+    static getSimulationsCount() {
+        return TradeMetrics.#simulations;
     }
 
-    static getPercentCrashes(){
-        return `${100*(parseFloat((this.#crashes/(this.#crashes+this.#simulations)).toFixed(4)))}%`
-    };
+    static getPercentCrashes() {
+        return `${(100 * (parseFloat((TradeMetrics.#crashes / (TradeMetrics.#crashes + TradeMetrics.#simulations)).toFixed(4))))}%`;
+    }
 
-    static getprofitableWinWate(){
-        return  TradeMetrics.#positiveEvents/(TradeMetrics.#positiveEvents +TradeMetrics.#negativeEvents);
+    static getProfitableWinRate() {
+        return `${(parseFloat((TradeMetrics.#positiveEvents / (TradeMetrics.#positiveEvents + TradeMetrics.#negativeEvents)).toFixed(2)) * 100)}%`;
     }
 }
