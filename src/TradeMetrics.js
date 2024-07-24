@@ -13,7 +13,10 @@ export class TradeMetrics {
 
     static #crashes = 0;
     static #simulations = 0;
-    static #percentCrashes =0;
+
+    static #capitalStart
+    static #positiveEvents=0
+    static #negativeEvents=0
 
     constructor(risk, reward, winRate, totalTrades, totalCapital, positionSize) {
         this.#risk = risk;
@@ -21,10 +24,13 @@ export class TradeMetrics {
         this.#winRate = winRate;
         this.#totalTrades = totalTrades;
         this.#totalCapital = totalCapital;
+        TradeMetrics.#capitalStart = this.#totalCapital;
         this.#positionSize = positionSize;
         TradeMetrics.#simulations ++;
         this.#tradeHistory = []
     }
+
+
 
     tradeSimulator() {
         let positionSize = parseFloat((this.#positionSize * this.#totalCapital).toFixed(2))
@@ -53,6 +59,12 @@ export class TradeMetrics {
 
         this.#realSuccessRate = parseFloat((this.#gain / (this.#gain + this.#loss)).toFixed(2));
 
+        if(TradeMetrics.#capitalStart< this.#totalCapital){
+            TradeMetrics.#positiveEvents ++;
+        }else{
+            TradeMetrics.#negativeEvents ++;
+        };
+
         const dados = [{
             gains: this.#gain,
             loss: this.#loss,
@@ -63,6 +75,10 @@ export class TradeMetrics {
         }]
 
         console.table(dados)
+    }
+
+    static getStartCapital(){
+        return TradeMetrics.#capitalStart;
     }
 
     static getCrashCount(){
@@ -76,4 +92,8 @@ export class TradeMetrics {
     static getPercentCrashes(){
         return `${100*(parseFloat((this.#crashes/(this.#crashes+this.#simulations)).toFixed(4)))}%`
     };
+
+    static getprofitableWinWate(){
+        return  TradeMetrics.#positiveEvents/(TradeMetrics.#positiveEvents +TradeMetrics.#negativeEvents);
+    }
 }
